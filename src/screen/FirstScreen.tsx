@@ -32,7 +32,6 @@ const FirstScreen = () => {
       }
 
       setValue("polkadot-wallet", accounts);
-      console.log(accounts);
     }, 3000);
   }, [accounts]);
 

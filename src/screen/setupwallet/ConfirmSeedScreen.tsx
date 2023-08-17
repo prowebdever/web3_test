@@ -45,7 +45,6 @@ const ConfirmSeedScreen = () => {
 
     const handleCheck = () => {
         // Check if the input matches the selected seed word
-        console.log("--user seed words--", userSeedPhrase);
         if (userSeedPhrase[selectedWordIndex] === inputAnswer) {
             const { randomIndex, filteredSeeds } = getRandomSeedPhrase(userSeedPhrase);
             setSubSeedPhrase(filteredSeeds);
@@ -53,7 +52,6 @@ const ConfirmSeedScreen = () => {
             setSelectedWordIndex(randomIndex);
             setInputAnswer("");
         } else {
-            console.log("Incorrect seed word");
         }
 
         // Once successfully completed, store the mnemonic in storage and navigate to the wallet page.

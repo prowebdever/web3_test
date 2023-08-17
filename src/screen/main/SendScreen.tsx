@@ -17,6 +17,7 @@ import {Picker} from '@react-native-picker/picker';
 
 import { useAppContext } from '../../context/AppContext';
 import { shortAddress } from '../../utils/common';
+import { validAddress } from '../../utils/createWallet';
 
 const LoadingModal = ({ visible }) => {
     return (
@@ -38,18 +39,18 @@ const LoadingModal = ({ visible }) => {
   });
   
 
-const SendScreen = ({route}) => {
-    const { accounts, accountInfos } = useAppContext();
+const SendScreen = () => {
+    const { accounts, accountInfos, contacts } = useAppContext();
 
-    const [amountTosend, setAmountTosend] = useState(0);
-    const [addressFrom, setAddressFrom] = useState("");
-    const [addressTo, setAddressTo] = useState("");
+    const [ amountTosend, setAmountTosend ] = useState(0);
+    const [ addressFrom, setAddressFrom ] = useState("");
+    const [ addressTo, setAddressTo ] = useState("");
 
-    const [currentAccount, setCurrentAccount] = useState(null);
-    const [favoriteAddrs, setFavoriteAddrs] = useState(null);
+    const [ currentAccount, setCurrentAccount ] = useState(null);
+    const [ favoriteAddrs, setFavoriteAddrs ] = useState(null);
 
-    const [isLoading, setLoading] = useState(false);
-    const [page, setPage] = useState(0);
+    const [ isLoading, setLoading ] = useState(false);
+    const [ page, setPage ] = useState(0);
     const navigation = useNavigation();
 
     const theme = {
@@ -103,7 +104,7 @@ const SendScreen = ({route}) => {
             const _amount = new BigNumber(amountTosend).multipliedBy(10**12).toString()
             const transfer = api.tx.balances.transfer(addressTo, _amount);
             const hash = await transfer.signAndSend(sender);
-            console.log(`Transaction hash: ${hash.toHex()}`);
+
             Alert.alert("Success", `You just sent ${amountTosend} WND to ${addressTo}.`,
             [
             ],
@@ -123,7 +124,6 @@ const SendScreen = ({route}) => {
     }
 
     const chooseAccount = (name) => {
-        console.log(name);
         const count = accountInfos?.length;
         for (let i = 0; i < count; i ++) {
             if(accountInfos[i].account.name === name) {
@@ -132,7 +132,6 @@ const SendScreen = ({route}) => {
             }
         }
 
-        console.log(name);
         setCurrentAccount(null);
     }
     return (
@@ -147,7 +146,7 @@ const SendScreen = ({route}) => {
                                         <Text style={{ color: 'white', textAlign: 'left', marginBottom: spaceM }}>From</Text>
                                         <View style={{ flexDirection: "row" }}>
                                             <View style={{flex: 1, justifyContent: 'center'}}>
-                                                <MaterialIcons name="supervised-user-circle" size={48} color="white" />
+                                                <MaterialIcons name="account-circle" size={48} color="white" />
                                             </View>
                                             <View style={{flex: 3, padding: spaceM, flexDirection: "column"}}>
                                             <Picker
@@ -185,6 +184,26 @@ const SendScreen = ({route}) => {
                                             />
                                         </View>
                                     </View>
+                                    <Text style={{ color: 'white', textAlign: 'left', padding: spaceX }}>Contact Address</Text>
+                                    <FlatList
+                                        style={{ width: '100%', paddingHorizontal: spaceX}}
+                                        data={contacts}
+                                        keyExtractor={(item) => item.address}
+                                        //@ts-ignore
+                                        renderItem={(item) => (
+                                            <TouchableOpacity onPress={()=>setAddressTo(item.item.address)}>
+                                                <View style={{flexDirection: "row", marginBottom: spaceM}}>
+                                                    <View style={{flex: 1, justifyContent: 'center'}}>
+                                                        <MaterialIcons name="account-circle" size={48} color="white" />
+                                                    </View>
+                                                    <View style={{flex: 4, padding: spaceM, flexDirection: "column"}}>
+                                                        <Text style={{ color: 'white', marginBottom: spaceM, textAlign: 'left' }}>{item.item.name}</Text>
+                                                        <Text style={{ fontSize: 12, color: 'gray', textAlign: 'left' }}>{shortAddress(item.item.address)}</Text>
+                                                    </View>
+                                                </View>
+                                            </TouchableOpacity>
+                                        )}
+                                    />
                                     <Text style={{ color: 'white', textAlign: 'left', padding: spaceX }}>Recent Address</Text>
                                     <FlatList
                                         style={{ width: '100%', paddingHorizontal: spaceX}}
@@ -195,7 +214,7 @@ const SendScreen = ({route}) => {
                                             <TouchableOpacity onPress={()=>setAddressTo(item.item)}>
                                                 <View style={{flexDirection: "row", marginBottom: spaceM}}>
                                                     <View style={{flex: 1, justifyContent: 'center'}}>
-                                                        <MaterialIcons name="supervised-user-circle" size={48} color="white" />
+                                                        <MaterialIcons name="account-circle" size={48} color="white" />
                                                     </View>
                                                     <View style={{flex: 4, padding: spaceM, flexDirection: "column"}}>
                                                         <Text style={{ color: 'white', marginBottom: spaceM, textAlign: 'left' }}>Contact {item.index + 1}</Text>
@@ -208,7 +227,7 @@ const SendScreen = ({route}) => {
                                 </View>
                                 <CustomButton isActive={true} buttonText="Next" onPressAction={() => {
                                     // Validate recipient's address
-                                    if (!addressTo || addressTo.length !== 48 || !addressTo.startsWith('5')) {
+                                    if (!validAddress(addressTo)) {
                                         Alert.alert("Invalid Address", "Please enter a valid recipient address.", [], { cancelable: true });
                                         return;
                                     }
@@ -271,7 +290,6 @@ const SendScreen = ({route}) => {
                                     </View>
                                 </View>
                                 <CustomButton isActive={true} buttonText="Send" onPressAction={() => {
-                                    console.log("----sending wnd-------")
                                     handlSend();
                                 }} />
                             </View>

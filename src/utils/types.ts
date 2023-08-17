@@ -20,6 +20,11 @@ export type AccountType = {
     name: string
 }
 
+export type ContactType = {
+    name: string,
+    address: string
+}
+
 export type AccountInfoType = {
     account: AccountType,
     balance: number,

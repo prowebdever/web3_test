@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { AccountType, AccountInfoType } from "../utils/types";
+import { AccountType, AccountInfoType, ContactType } from "../utils/types";
 import { useGetAccountBalance, useGetAccountTransactions } from "../hooks/useChainInfo";
 import { clearValue, getValue } from '../utils/LocalStorage';
 
 interface AppDataContext {
   accounts: AccountType[];
   setAccounts: React.Dispatch<React.SetStateAction<AccountType[]>>;
+  contacts: ContactType[];
+  setContacts: React.Dispatch<React.SetStateAction<ContactType[]>>;
   accountInfos: AccountInfoType[];
   setAccountInfos: React.Dispatch<React.SetStateAction<AccountInfoType[]>>;
 };
@@ -13,6 +15,8 @@ interface AppDataContext {
 const initialAppData: AppDataContext = {
   accounts: [],
   setAccounts: () => {},
+  contacts: [],
+  setContacts: () => {},
   accountInfos: [],
   setAccountInfos: () => {},
 };
@@ -29,16 +33,17 @@ export const useAppContext = () => {
 
 const AppProvider = ({ children }) => {
   const [accounts, setAccounts] = useState<AccountType[]>([]);
+  const [contacts, setContacts] = useState<ContactType[]>([]);
   const [accountInfos, setAccountInfos] = useState<AccountInfoType[]>([]);
 
   useEffect(()=>{
     const getWallet = async () =>{
       // clearValue("polkadot-wallet");
       let _accounts = await getValue("polkadot-wallet");
-      // const _accInfos = accounts.map((account) => ({account: account, balance: 0, transactions: []}))
-
-      console.log(_accounts);
       setAccounts(_accounts);
+
+      let _contacts = await getValue("polkadot-contacts");
+      setContacts(_contacts);
     }
 
     getWallet();
@@ -68,7 +73,7 @@ const AppProvider = ({ children }) => {
   }, [accounts]);
 
   return (
-    <AppContext.Provider value={{ accounts, setAccounts, accountInfos, setAccountInfos }}>
+    <AppContext.Provider value={{ accounts, setAccounts, contacts, setContacts, accountInfos, setAccountInfos }}>
       {children}
     </AppContext.Provider>
   );

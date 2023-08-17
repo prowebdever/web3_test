@@ -10,6 +10,7 @@ import CreateWalletScreen from "../screen/setupwallet/CreateWalletScreen";
 import CreatePasswordScreen from "../screen/setupwallet/CreatePasswordScreen";
 import SecureWalletScreen from "../screen/setupwallet/SecureWalletScreen";
 import ConfirmSeedScreen from "../screen/setupwallet/ConfirmSeedScreen";
+import ContactScreen from "../screen/main/ContactScreen";
 
 // Create a Stack Navigator
 const RootStack = createStackNavigator();
@@ -98,6 +99,14 @@ const AppNavigator = () => {
                 options={{
                     headerShown: true,
                     title: 'Create mew wallet',
+                }}
+            />
+            <RootStack.Screen
+                name="ContactScreen"
+                component={ContactScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Contact List',
                 }}
             />
             <RootStack.Screen

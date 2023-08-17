@@ -32,7 +32,6 @@ const CreatePasswordScreen = () => {
                     // Compare the password and confirm password
                     if (values.password !== values.passwordConfirm) {
                         Alert.alert("Warning", "Password does not match");
-                        console.log("Not match");
                         return;
                     }
 

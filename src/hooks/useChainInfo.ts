@@ -3,10 +3,11 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { BigNumber } from 'bignumber.js';
 import axios from 'axios';
 import { TransactionType } from 'utils/types';
-import { apiKey, apiUrl } from '../utils/constants';
 
 // Define the WebSocket provider for Polkadot API
 const polkadotProvider = new WsProvider('wss://westend-rpc.polkadot.io');
+const apiKey = 'aa228ed6950c4df6b0322fcf7d7a4a5b';
+const apiUrl = `https://westend.api.subscan.io`;
 
 // Hook to get account balance
 export const useGetAccountBalance = async (userAddress: string | undefined): Promise<number> => {

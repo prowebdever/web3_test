@@ -24,7 +24,6 @@ const WalletScreen = () => {
 
     const clickTransaction = (index: number) => {
         const transactions = currentAccount?.transactions;
-        console.log(index, transactions);
         const count = transactions?.length;
         for (let i = 0; i < count; i ++) {
             if (index === transactions[i].id) {
@@ -38,11 +37,9 @@ const WalletScreen = () => {
 
     useEffect(()=>{
         const init = () => {
-            console.log(accounts, currentAccount, accountInfos);
 
             if(currentAccount == null && accountInfos.length > 0) {
                 setCurrentAccount(accountInfos[0]);
-                console.log(accountInfos[0]);
             }
         }
         
@@ -59,7 +56,6 @@ const WalletScreen = () => {
         if (supported) {
           await Linking.openURL(url);
         } else {
-          console.log(`Cannot open URL: ${url}`);
         }
     };
 
@@ -80,7 +76,6 @@ const WalletScreen = () => {
     }
 
     const chooseAccount = (name) => {
-        console.log(name);
         const count = accountInfos?.length;
         for (let i = 0; i < count; i ++) {
             if(accountInfos[i].account.name === name) {
@@ -89,7 +84,6 @@ const WalletScreen = () => {
             }
         }
 
-        console.log(name);
         setCurrentAccount(null);
     }
 

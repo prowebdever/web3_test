@@ -18,7 +18,6 @@ const ImportWalletScreen = ({route}) => {
     const [passwordStatus, setPasswordStatus] = React.useState("Must be at least 8 characters");
 
     const { isNew } = route.params;
-    console.log(isNew);
     // State variable for enabling Face ID
     const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 

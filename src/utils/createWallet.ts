@@ -31,6 +31,14 @@ export const validateSeed = (seedPhrase: string) => {
   }
 };
 
+export const validAddress = (address: string) => {
+  if(!address || address.length !== 48 || !address.startsWith('5')) {
+    return false;
+  }
+
+  return true;
+}
+
 export const checkPasswordStrength = (password: string) => {
   // Define the regular expressions for different password criteria
   const regex = {

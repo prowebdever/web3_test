@@ -10,8 +10,7 @@ const SettingScreen = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#080A0C', padding: spaceM }}>
-            <Text style={{ fontSize: 18, color: 'white', marginBottom: spaceX }}>Import Wallet</Text>
-            <Button buttonColor='#333' icon={"add"} mode="contained" 
+            <Button buttonColor='#333' icon={"plus"} mode="contained" 
                 onPress={() => { 
                     //@ts-ignore
                     navigation.navigate('ImportWalletScreen', {isNew: false})
@@ -19,13 +18,22 @@ const SettingScreen = () => {
                 style={{ margin: spaceM }}>
                 Import Existing Wallet
             </Button>
-            <Button buttonColor='#333' icon={"add"} mode="contained" 
+            <Button buttonColor='#333' icon={"plus"} mode="contained" 
                 onPress={() => { 
                     //@ts-ignore
                     navigation.navigate('ConfirmSeedScreen', {isNew: false})
                 }}
                 style={{ margin: spaceM }}>
                 Create New Wallet
+            </Button>
+            <View style={{ height: 0.5, backgroundColor: 'gray', margin: spaceM }}></View>
+            <Button buttonColor='#333' icon={"account-box"} mode="contained" 
+                onPress={() => { 
+                    //@ts-ignore
+                    navigation.navigate('ContactScreen')
+                }} 
+                style={{ margin: spaceM }}>
+                Contact
             </Button>
         </View >
     )
